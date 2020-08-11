@@ -4,9 +4,9 @@ pipeline {
     registryCredential = 'docker'
     dockerImage = ''
   }
-  agent an
+  agent any
   stages{
-    tage('package'){
+    stage('package'){
                 steps{
                     sh '''
                          npm install
