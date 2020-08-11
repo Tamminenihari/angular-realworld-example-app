@@ -4,11 +4,10 @@ pipeline {
     registryCredential = 'docker'
     dockerImage = ''
   }
-  agent any
+  agent an
   stages{
     tage('package'){
                 steps{
-<<<<<<< HEAD
                     sh '''
                          npm install
                      '''
@@ -51,22 +50,3 @@ pipeline {
     }
   }
 }
-=======
-                    sh 'npm install'
-               
-                    }
-            }
-                stage('Build'){
-                    steps{
-                        sh 'ng serve --prod'  
-                    }
-                }
-               
-
-
-                
-                   
-	  
-}
-}
->>>>>>> df220e2977f6c1c79df558dab1ffadefc9d80ed2
