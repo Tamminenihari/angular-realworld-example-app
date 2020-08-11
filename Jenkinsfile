@@ -32,6 +32,12 @@ pipeline {
                     }
                 }
 
+                stage(' docker Build'){
+                    steps{
+                        
+                    }
+                }
+
 
                 
                    
