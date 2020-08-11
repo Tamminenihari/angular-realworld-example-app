@@ -9,10 +9,12 @@ pipeline {
     stage('package'){
                 steps{
                     sh '''
-                         yarn install
+                         
+                         npm install
                      '''
                     }
             }  
+
     stage ('Build') {
       steps{
         echo "Building Project"
