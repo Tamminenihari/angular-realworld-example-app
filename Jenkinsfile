@@ -26,7 +26,7 @@ pipeline {
       steps{
         echo "Building Docker Image"
         script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+          dockerImage = docker.build angular-realworld-example-app + ":$BUILD_NUMBER"
         }
       }
     }
