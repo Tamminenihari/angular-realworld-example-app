@@ -9,7 +9,7 @@ pipeline {
     stage('package'){
                 steps{
                     sh '''
-                         npm install
+                         yarn install
                      '''
                     }
             }  
@@ -17,7 +17,7 @@ pipeline {
       steps{
         echo "Building Project"
         sh '''
-                            npm run ng -- build --prod  
+                          ng serve --prod  
                         '''
       }
     }
