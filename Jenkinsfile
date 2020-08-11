@@ -13,7 +13,7 @@ pipeline {
 	   stage('npm install package'){
                 steps{
                     sh 'npm install'
-                    sh 'yarn install'
+               
                     }
             }
                 stage('Build'){
