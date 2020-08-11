@@ -30,6 +30,18 @@ pipeline {
         }
       }
     }
+    stage ('Push Docker Image') {
+      steps{
+        echo "Pushing Docker Image"
+        script {
+          withDockerRegistry(credentialsId: 'registryCredential') {
+             dockerImage.push()
+              dockerImage.push('latest')
+    
+             }
+        }
+      }
+    }
     
   }
 }
