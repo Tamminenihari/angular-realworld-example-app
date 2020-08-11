@@ -1,46 +1,52 @@
 pipeline {
-   agent any
-   tools {
-		nodejs 'nodejs'
-        
-            }
-   stages {
-       stage('Git-Checkout') {
-         steps {
-            git 'https://github.com/Tamminenihari/angular-realworld-example-app.git'
-         }
-      }
-	   stage('npm install package'){
+  environment {
+    registry = "11503542"
+    registryCredential = 'docker'
+    dockerImage = ''
+  }
+  agent any
+  stages{
+    tage('package'){
                 steps{
-                    sh label: '', script: '''
-                        yarn install
+                    sh '''
                          npm install
-                         
                      '''
                     }
-            }
-                stage('Build'){
-                    steps{
-                        sh 'ng build --prod'  
-                    }
-                }
-                stage(' docker Build'){
-                    steps{
-                        sh 'ng build --prod'
-                        sh 'docker build -t angular-realworld-example-app .'  
-                        sh 'docker run --rm -d  -p 80:80/tcp angular-realworld-example-app:latest'
-                    }
-                }
-
-                stage(' docker Build'){
-                    steps{
-                        
-                    }
-                }
-
-
-                
-                   
-	  
-}
+            }  
+    stage ('Build') {
+      steps{
+        echo "Building Project"
+        sh '''
+                            npm run ng -- build --prod  
+                        '''
+      }
+    }
+    
+    stage ('Build Docker Image') {
+      steps{
+        echo "Building Docker Image"
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
+    }
+    stage ('Push Docker Image') {
+      steps{
+        echo "Pushing Docker Image"
+        script {
+          docker.withRegistry( '', registryCredential ) {
+              dockerImage.push()
+              dockerImage.push('latest')
+          }
+        }
+      }
+    }
+    stage ('Deploy to Dev') {
+      steps{
+        echo "Deploying to Dev Environment"
+        sh "docker rm -f petclinic || true"
+        sh "docker run -d --name=petclinic -p 8081:8080 prabhavagrawal/petclinic"
+      }
+    }
+  }
 }
